@@ -2,4 +2,4 @@ import Chai
 
 while True:
   text = input("Chai > ")
-  Chai.Lexer.__init__("Chai","File",text,1)
+  Chai.Lexer.__init__("File",text,1)
