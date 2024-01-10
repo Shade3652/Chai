@@ -3,7 +3,7 @@
 ##########
 #TOKENS
 ##########
-lexer_current_char = None
+lexer_current_cha = None
 tokens = []
 lexer_char_num = 0
 global lexer_line
@@ -25,33 +25,33 @@ class Token():
             
 
     def tokenize(fn,ln):
-        while lexer_current_char != None:
-            if lexer_current_char in ' \t':
+        while lexer_current_cha != None:
+            if lexer_current_cha in ' \t':
                 Token.lexer_advance()
-            elif lexer_current_char in "1234567890":
+            elif lexer_current_cha in "1234567890":
                 tokens.append(Token.make_number())
-            elif lexer_current_char == "+":
+            elif lexer_current_cha == "+":
                 tokens.append(TT_PLUS)
                 Token.lexer_advance()
-            elif lexer_current_char == "-":
+            elif lexer_current_cha == "-":
                 tokens.append(TT_MINUS)
                 Token.lexer_advance()
-            elif lexer_current_char == "*":
+            elif lexer_current_cha == "*":
                 tokens.append(TT_MUL)
                 Token.lexer_advance()
-            elif lexer_current_char == "/":
+            elif lexer_current_cha == "/":
                 tokens.append(TT_DIV)
                 Token.lexer_advance()
-            elif lexer_current_char == "(":
+            elif lexer_current_cha == "(":
                 tokens.append(TT_LPAR)
                 Token.lexer_advance()
-            elif lexer_current_char == ")":
+            elif lexer_current_cha == ")":
                 tokens.append(TT_RPAR)
                 Token.lexer_advance()
-            elif lexer_current_char == " ":
+            elif lexer_current_cha == " ":
                 Token.lexer_advance()
             else:
-                lexer_char = lexer_current_char  
+                lexer_char = lexer_current_cha  
                 Token.lexer_advance()
                 Errors.BadCharacter(ln,fn)
 
@@ -63,22 +63,22 @@ class Token():
         num_str = ''
         dot_count = 0
 
-        while lexer_current_char in "1234567890.":
-            if lexer_current_char   == '.':
+        while lexer_current_cha in "1234567890.":
+            if lexer_current_cha   == '.':
                 if dot_count == 1: break
                 dot_count += 1
                 num_str += '.'
             else:
-                num_str += lexer_current_char
+                num_str += lexer_char_num
 
             Token.lexer_advance()
 
     def lexer_advance():
         if lexer_line > len(text):
-            lexer_ln += 1; lexer_char_num = -1; lexer_current_char = None
+            lexer_line += 1; lexer_char_num = -1; lexer_current_char = None
         else:
-            lexer_current_char += 1
-            lexer_current_char = text[lexer_char_num]
+            lexer_current_cha += 1
+            lexer_current_cha = text[lexer_char_num]
 
 
 ##########
