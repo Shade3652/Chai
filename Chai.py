@@ -17,7 +17,7 @@ TT_RPAR = "RPAR"
 
 class Token():
     def init(self,text,ln):
-        self.current_char = None
+        lexer_current_char   = None
         self.ln_space = -1
         self.text = text
         self.ln = 1
@@ -25,39 +25,39 @@ class Token():
 
     def advance(self):
         self.ln_space =+ 1
-        self.current_char = self.text[self.ln_space]
+        lexer_current_char   = self.text[self.ln_space]
         if self.ln_space > len(self.text):
             self.ln =+ 1; self.ln_space = -1
             
 
     def tokenize(self,text,fn,ln):
-        while self.current_char != None:
-            if self.current_char in ' \t':
+        while lexer_current_char   != None:
+            if lexer_current_char   in ' \t':
                 self.advance()
-            elif self.current_char in "1234567890":
+            elif lexer_current_char   in "1234567890":
                 tokens.append(self.make_number())
-            elif self.current_char == "+":
+            elif lexer_current_char   == "+":
                 tokens.append(TT_PLUS)
                 self.advance()
-            elif self.current_char == "-":
+            elif lexer_current_char   == "-":
                 tokens.append(TT_MINUS)
                 self.advance()
-            elif self.current_char == "*":
+            elif lexer_current_char   == "*":
                 tokens.append(TT_MUL)
                 self.advance()
-            elif self.current_char == "/":
+            elif lexer_current_char   == "/":
                 tokens.append(TT_DIV)
                 self.advance()
-            elif self.current_char == "(":
+            elif lexer_current_char   == "(":
                 tokens.append(TT_LPAR)
                 self.advance()
-            elif self.current_char == ")":
+            elif lexer_current_char   == ")":
                 tokens.append(TT_RPAR)
                 self.advance()
-            elif self.current_char == " ":
+            elif lexer_current_char   == " ":
                 self.advance()
             else:
-                self.char = self.current_char
+                self.char = lexer_current_char  
                 self.advance()
                 Errors.BadCharacter(self.ln_space,fn,ln)
 
@@ -69,13 +69,13 @@ class Token():
         num_str = ''
         dot_count = 0
 
-        while self.current_char != None and self.current_char in "1234567890.":
-            if self.current_char == '.':
+        while lexer_current_char   != None and lexer_current_char   in "1234567890.":
+            if lexer_current_char   == '.':
                 if dot_count == 1: break
                 dot_count += 1
                 num_str += '.'
             else:
-                num_str += self.current_char
+                num_str += lexer_current_char  
             self.advance()
 
 ##########
