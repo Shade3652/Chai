@@ -16,9 +16,7 @@ TT_LPAR = "LPAR"
 TT_RPAR = "RPAR"
 
 class Token():
-    def __init__(self,type,value,text,ln):
-        self.type = type
-        self.value = value
+    def init(self,text,ln):
         self.current_char = None
         self.ln_space = -1
         self.text = text
@@ -103,4 +101,5 @@ class Lexer():
     def __init__(filen,text,ln):
         fn = filen
         text = text 
-        Token.tokenize(self,text,fn,ln)
+        Token.init("Token",text,ln)
+        Token.tokenize(text,fn,ln)
