@@ -32,7 +32,7 @@ class Token():
             self.ln =+ 1; self.ln_space = -1
             
 
-    def tokenize(self,text,fn):
+    def tokenize(self,text,fn,ln):
         while self.current_char != None:
             if self.current_char in ' \t':
                 self.advance()
@@ -100,7 +100,7 @@ class Errors():
 ##########
             
 class Lexer():
-    def __init__(self,fn,text,ln):
-        self.fn = fn
+    def __init__(self,filen,text,ln):
+        self.fn = filen
         self.text = text 
-        Token.tokenize(self,text,self.fn)
+        Token.tokenize(self,text,self.fn,ln)
