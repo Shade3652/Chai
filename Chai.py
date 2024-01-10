@@ -5,6 +5,9 @@
 ##########
 lexer_current_char = None
 tokens = []
+lexer_char_num = 0
+global lexer_line
+lexer_line = 0
 
 TT_INT = "INT"
 TT_FLOAT = "FLOAT"
@@ -16,50 +19,41 @@ TT_LPAR = "LPAR"
 TT_RPAR = "RPAR"
 
 class Token():
-    def init(self,text,ln):
-        lexer_current_char = None
-        self.ln_space = -1
-        self.text = text
-        self.ln = 1
-        self.advance()
-
-    def advance(self):
-        self.ln_space =+ 1
-        lexer_current_char = self.text[self.ln_space]
-        if self.ln_space > len(self.text):
-            self.ln =+ 1; self.ln_space = -1
+    def init():
+            lexer_ln = 0
+            Token.lexer_advance()
             
 
-    def tokenize(self,text,fn,ln):
+    def tokenize(fn,ln):
         while lexer_current_char != None:
             if lexer_current_char in ' \t':
-                self.advance()
+                Token.lexer_advance()
             elif lexer_current_char in "1234567890":
-                tokens.append(self.make_number())
+                tokens.append(Token.make_number())
             elif lexer_current_char == "+":
                 tokens.append(TT_PLUS)
-                self.advance()
+                Token.lexer_advance()
             elif lexer_current_char == "-":
                 tokens.append(TT_MINUS)
-                self.advance()
+                Token.lexer_advance()
             elif lexer_current_char == "*":
                 tokens.append(TT_MUL)
-                self.advance()
+                Token.lexer_advance()
             elif lexer_current_char == "/":
                 tokens.append(TT_DIV)
-                self.advance()
+                Token.lexer_advance()
             elif lexer_current_char == "(":
                 tokens.append(TT_LPAR)
-                self.advance()
+                Token.lexer_advance()
             elif lexer_current_char == ")":
                 tokens.append(TT_RPAR)
-                self.advance()
+                Token.lexer_advance()
             elif lexer_current_char == " ":
-                self.advance()
+                Token.lexer_advance()
             else:
-                self.char = lexer_current_char  
-                self.advance()
-                Errors.BadCharacter(self.ln_space,fn,ln)
+                lexer_char = lexer_current_char  
+                Token.lexer_advance()
+                Errors.BadCharacter(ln,fn)
 
 
 
@@ -69,37 +63,42 @@ class Token():
         num_str = ''
         dot_count = 0
 
-        while lexer_current_char   != None and lexer_current_char   in "1234567890.":
+        while lexer_current_char in "1234567890.":
             if lexer_current_char   == '.':
                 if dot_count == 1: break
                 dot_count += 1
                 num_str += '.'
             else:
-                num_str += lexer_current_char  
-            self.advance()
+                num_str += lexer_current_char
+
+            Token.lexer_advance()
+
+    def lexer_advance():
+        if lexer_line > len(text):
+            lexer_ln += 1; lexer_char_num = -1; lexer_current_char = None
+        else:
+            lexer_current_char += 1
+            lexer_current_char = text[lexer_char_num]
+
 
 ##########
 #ERRORS
 ##########
     
 class Errors():
-    class Data():
-        def __init__(self,pos_start,pos_end,error_name,error_dets):
-            self.pos_start = pos_start
-            self.pos_end = pos_end
-            self.error_name = error_name
-            self.error_dets = error_dets
 
-        def BadCharacter(ln_space,fn,ln):
-            print("Error: Bad character. File " + fn + ", line " + ln + ", character" + ln_space)
+    def BadCharacter(ln_space,ln,fn):
+        print("Error: Bad character. File " + fn + ", line " + ln + ", character" + ln_space)
 
 ##########
 #LEXER
 ##########
             
 class Lexer():
-    def __init__(filen,text,ln):
+    def __init__(filen,txt,ln):
+        global fn
         fn = filen
-        text = text 
-        Token.init("Token",text,ln)
+        global text
+        text = txt
+        Token.init()
         Token.tokenize(text,fn,ln)
