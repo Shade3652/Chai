@@ -6,7 +6,6 @@
 lexer_current_cha = None
 tokens = []
 lexer_char_num = 0
-global lexer_line
 lexer_line = 0
 
 TT_INT = "INT"
@@ -20,7 +19,6 @@ TT_RPAR = "RPAR"
 
 class Token():
     def init():
-            lexer_ln = 0
             Token.lexer_advance()
             
 
