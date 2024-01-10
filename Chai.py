@@ -100,7 +100,7 @@ class Errors():
 ##########
             
 class Lexer():
-    def __init__(self,filen,text,ln):
+    def __init__(filen,text,ln):
         fn = filen
         text = text 
         Token.tokenize(self,text,fn,ln)
