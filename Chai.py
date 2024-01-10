@@ -3,7 +3,7 @@
 ##########
 #TOKENS
 ##########
-
+token_current_char = None
 tokens = []
 
 TT_INT = "INT"
