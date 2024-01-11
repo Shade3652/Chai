@@ -3,10 +3,9 @@
 ##########
 #TOKENS
 ##########
-lexer_current_cha = None
+global lexer_current_cha; lexer_current_cha = None
 tokens = []
 lexer_char_num = 0
-lexer_line = 0
 
 TT_INT = "INT"
 TT_FLOAT = "FLOAT"
@@ -19,38 +18,38 @@ TT_RPAR = "RPAR"
 
 class Token():
     def init():
-            Token.lexer_advance()
+            lexer_advance()
             
 
     def tokenize(fn,ln):
         while lexer_current_cha != None:
             if lexer_current_cha in ' \t':
-                Token.lexer_advance()
+                lexer_advance()
             elif lexer_current_cha in "1234567890":
                 tokens.append(Token.make_number())
             elif lexer_current_cha == "+":
                 tokens.append(TT_PLUS)
-                Token.lexer_advance()
+                lexer_advance()
             elif lexer_current_cha == "-":
                 tokens.append(TT_MINUS)
-                Token.lexer_advance()
+                lexer_advance()
             elif lexer_current_cha == "*":
                 tokens.append(TT_MUL)
-                Token.lexer_advance()
+                lexer_advance()
             elif lexer_current_cha == "/":
                 tokens.append(TT_DIV)
-                Token.lexer_advance()
+                lexer_advance()
             elif lexer_current_cha == "(":
                 tokens.append(TT_LPAR)
-                Token.lexer_advance()
+                lexer_advance()
             elif lexer_current_cha == ")":
                 tokens.append(TT_RPAR)
-                Token.lexer_advance()
+                lexer_advance()
             elif lexer_current_cha == " ":
-                Token.lexer_advance()
+                lexer_advance()
             else:
                 lexer_char = lexer_current_cha  
-                Token.lexer_advance()
+                lexer_advance()
                 Errors.BadCharacter(ln,fn)
 
 
@@ -69,14 +68,15 @@ class Token():
             else:
                 num_str += lexer_char_num
 
-            Token.lexer_advance()
+            lexer_advance()
 
-    def lexer_advance():
-        if lexer_line > len(text):
-            lexer_line += 1; lexer_char_num = -1; lexer_current_char = None
-        else:
-            lexer_current_cha += 1
-            lexer_current_cha = text[lexer_char_num]
+def lexer_advance():
+    if lexer_current_cha > len(text):
+        pass
+        #lexer_char_num = -1; lexer_current_char = None
+    else:
+        lexer_current_cha += 1
+        lexer_current_cha = text[lexer_char_num]
 
 
 ##########
@@ -100,3 +100,19 @@ class Lexer():
         text = txt
         Token.init()
         Token.tokenize(text,fn,ln)
+
+
+
+
+
+
+
+
+
+##########
+#RUN
+##########
+        
+while True:
+  text = input("Chai > ")
+  Lexer.__init__("File",text,1)
