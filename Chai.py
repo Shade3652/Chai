@@ -34,21 +34,22 @@ class Token():
                 tokens.append(TT_MINUS)
                 lexer_advance()
             elif lexer_current_cha == "*":
-                tokens.append(TT_MUL)
+                #tokens.append(TT_MUL)
                 lexer_advance()
             elif lexer_current_cha == "/":
-                tokens.append(TT_DIV)
+                #tokens.append(TT_DIV)
                 lexer_advance()
             elif lexer_current_cha == "(":
-                tokens.append(TT_LPAR)
+                #tokens.append(TT_LPAR)
                 lexer_advance()
             elif lexer_current_cha == ")":
-                tokens.append(TT_RPAR)
+                #tokens.append(TT_RPAR)
                 lexer_advance()
             elif lexer_current_cha == " ":
-                lexer_advance()
+                pass
+                #lexer_advance()
             else:
-                lexer_char = lexer_current_cha  
+                #lexer_char = lexer_current_cha  
                 lexer_advance()
                 Errors.BadCharacter(ln,fn)
 
@@ -71,13 +72,10 @@ class Token():
             lexer_advance()
 
 def lexer_advance():
-    if lexer_current_cha > len(text):
-        pass
-        #lexer_char_num = -1; lexer_current_char = None
-    else:
-        lexer_current_cha += 1
+    if lexer_char_num < len(text):
         lexer_current_cha = text[lexer_char_num]
-
+    else:
+        lexer_current_cha = None
 
 ##########
 #ERRORS
@@ -99,7 +97,8 @@ class Lexer():
         global text
         text = txt
         Token.init()
-        Token.tokenize(text,fn,ln)
+        Token.tokenize(fn,ln)
+        print(tokens)
 
 
 
