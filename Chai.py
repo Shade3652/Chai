@@ -4,7 +4,7 @@
 #TOKENS
 ##########
 lexer_char_num = -1
-lexer_current_cha = None
+lexer_current_cha = ""
 tokens = []
 
 TT_INT = "INT"
@@ -16,34 +16,35 @@ TT_DIV = "DIV"
 TT_LPAR = "LPAR"
 TT_RPAR = "RPAR"
 
+
+
+
+
 class Token():
     def init():
             Token.lexer_advance()
             
 
     def tokenize(fn,ln):
+        global tokens
         while lexer_current_cha != None:
             if lexer_current_cha in ' \t':
+                tokens.append(f"{TT_INT}:{lexer_current_cha}")
                 Token.lexer_advance()
             elif lexer_current_cha in "1234567890":
                 print(Token.make_number())
+                Token.lexer_advance()
             elif lexer_current_cha == "+":
-                print(TT_PLUS)
                 Token.lexer_advance()
             elif lexer_current_cha == "-":
-                print(TT_MINUS)
                 Token.lexer_advance()
             elif lexer_current_cha == "*":
-                print(TT_MUL)
                 Token.lexer_advance()
             elif lexer_current_cha == "/":
-                print(TT_DIV)
                 Token.lexer_advance()
             elif lexer_current_cha == "(":
-                print(TT_LPAR)
                 Token.lexer_advance()
             elif lexer_current_cha == ")":
-                print(TT_RPAR)
                 Token.lexer_advance()
             elif lexer_current_cha == " ":
                 pass
@@ -60,7 +61,7 @@ class Token():
         num_str = ''
         dot_count = 0
 
-        while lexer_current_cha in "1234567890.":
+        while lexer_current_cha in "1234567890":
             if lexer_current_cha   == '.':
                 if dot_count == 1: break
                 dot_count += 1
@@ -71,13 +72,18 @@ class Token():
             Token.lexer_advance()
 
     def lexer_advance():
-        global lexer_char_num, lexer_current_cha
-        if lexer_char_num < len(text):
-            lexer_char_num = lexer_char_num + 1
-            lexer_current_cha = text[lexer_char_num]
+        global lexer_char_num, lexer_current_cha, text
 
-        else:
-            lexer_current_cha = None
+        lexer_char_num = lexer_char_num + 1
+
+        if  lexer_char_num < len(text):
+            lexer_current_cha = text[lexer_char_num]
+            print(lexer_current_cha)
+            if lexer_current_cha in "+-*/()":
+                Token.lexer_advance()
+        #else:
+           # lexer_char_num = 0
+            #lexer_current_cha = None
 
 ##########
 #ERRORS
@@ -98,7 +104,6 @@ class Lexer():
         fn = filen
         Token.init()
         Token.tokenize(filen,ln)
-        print(lexer_char_num, lexer_current_cha)
         print(tokens)
 
 
